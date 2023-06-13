@@ -1,6 +1,5 @@
 import { type ConsolaInstance, consola } from 'consola'
 import { Client } from 'discord.js'
-import { events } from '../events'
 import { type ExtendedClientOptions } from '../types/Client'
 import { type EnvType } from '../types/Config'
 import { registerEvents } from '../utils/event'
@@ -20,7 +19,7 @@ export class ExtendedClient extends Client {
   }
 
   override async login (): Promise<string> {
-    registerEvents(this, events)
+    await registerEvents(this)
     return await super.login(this.env.TOKEN)
   }
 }
