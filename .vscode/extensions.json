@@ -1,5 +1,10 @@
 {
   "recommendations": [
-    "arcanis.vscode-zipfs"
+    "arcanis.vscode-zipfs",
+    "dbaeumer.vscode-eslint",
+    "numso.prettier-standard-vscode"
+  ],
+  "unwantedRecommendations": [
+    "esbenp.prettier-vscode"
   ]
 }
