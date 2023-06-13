@@ -6,7 +6,6 @@
     "allowJs": true,
 
     /* compilation */
-    "rootDir": "./src",
     "outDir": "./dist",
     "declaration": false,
     "skipLibCheck": true,
@@ -30,7 +29,8 @@
 
     /* module options */
     "module": "CommonJS",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["./dist", "./.yarn", "./.vscode"],
   "include": ["./src"]

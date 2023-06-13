@@ -16,5 +16,7 @@
     "ecmaVersion": "latest",
     "project": "./tsconfig.json"
   },
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/no-useless-constructor": "off"
+  }
 }

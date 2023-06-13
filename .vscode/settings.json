@@ -11,5 +11,6 @@
     "html",
     "typescriptreact"
   ],
-  "eslint.nodePath": ".yarn/sdks"
+  "eslint.nodePath": ".yarn/sdks",
+  "eslint.codeActionsOnSave.mode": "all"
 }
