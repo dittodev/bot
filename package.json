@@ -1,0 +1,7 @@
+{
+  "name": "bot",
+  "packageManager": "yarn@3.6.0",
+  "devDependencies": {
+    "typescript": "^5.1.3"
+  }
+}
