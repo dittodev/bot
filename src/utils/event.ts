@@ -28,16 +28,21 @@ export async function registerEvents (client: ExtendedClient): Promise<void> {
 
       client.events.set(event.id, event)
 
-      client.on(
-        event.id,
-        event.exec.bind(null, {
+      client.on(event.id, async (...args) => {
+        const props = {
           client,
-          log: (...args) => {
+          log: (...args: unknown[]) => {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             client.console.info(`[${event.id}]`, ...args)
           }
-        })
-      )
+        }
+
+        try {
+          await event.exec(props, ...args)
+        } catch (error) {
+          props.log('Uncaught Error', error)
+        }
+      })
     } catch (err) {
       console.error(err)
     }
