@@ -1,7 +1,7 @@
 import type { Event, EventExec, EventKeys } from '../types/Event'
 import { type ExtendedClient } from '../client/Client'
-import path from 'path'
-import { readdir } from 'fs/promises'
+import { Collection } from 'discord.js'
+import { loadFiles } from './fileLoader'
 
 export function event<T extends EventKeys> (
   id: T,
@@ -14,31 +14,32 @@ export function event<T extends EventKeys> (
 }
 
 export async function registerEvents (client: ExtendedClient): Promise<void> {
-  await loadEventFiles(client)
-}
+  client.events = new Collection()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-async function loadEventFiles (client: ExtendedClient): Promise<void> {
-  const eventsDir = path.join(__dirname, '..', 'events')
+  const files = await loadFiles('events')
 
-  const eventFiles: string[] = (await readdir(eventsDir)).filter(
-    file => file.endsWith('.js') || file.endsWith('.ts')
-  )
-
-  for (const file of eventFiles) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const event: Event<any> =
+  for (const file of files) {
+    try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (await import(`${eventsDir}/${file}`)).default as Event<any>
+      const event: Event<any> =
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (await import(`${file}`)).default as Event<any>
 
-    client.on(
-      event.id,
-      event.exec.bind(null, {
-        client,
-        log: (...args) => {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          client.console.info(`[${event.id}]`, ...args)
-        }
-      })
-    )
+      client.events.set(event.id, event)
+
+      client.on(
+        event.id,
+        event.exec.bind(null, {
+          client,
+          log: (...args) => {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            client.console.info(`[${event.id}]`, ...args)
+          }
+        })
+      )
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
