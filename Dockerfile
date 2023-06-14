@@ -22,4 +22,4 @@ COPY --from=builder /var/bot/dist/ ./
 RUN adduser -S bot
 USER bot
 
-ENTRYPOINT [ "node", "bot.js" ]
+ENTRYPOINT [ "yarn", "start:prod" ]

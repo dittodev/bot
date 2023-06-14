@@ -2,6 +2,7 @@
   "name": "bot",
   "packageManager": "yarn@3.6.0",
   "scripts": {
+    "start:prod": "node dist/bot.js",
     "dev": "ts-node src/bot.ts",
     "build": "tsc",
     "lint": "eslint .",
