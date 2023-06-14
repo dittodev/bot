@@ -17,8 +17,9 @@ RUN yarn build
 FROM node:18-alpine AS runner
 WORKDIR /var/bot
 
-COPY --from=builder /var/bot/dist/ ./
-
+COPY --from=builder /var/bot/dist/ ./dist
+COPY --from=builder /var/bot/.pnp.cjs /var/bot/.yarnrc.yml /var/bot/package.json /var/bot/yarn.lock ./
+COPY --from=builder .yarn/ ./.yarn/
 RUN adduser -S bot
 USER bot
 
